@@ -2,8 +2,6 @@ name: Build ZMK firmware
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  build-zmk-firmware:
-    runs-on: self-hosted
-    steps:
-    - uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+  build:
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
    
