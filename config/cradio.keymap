@@ -117,7 +117,7 @@
             &kp EXCL   &kp AT     &kp HASH   &kp DLLR   &kp PRCNT      &kp ASTRK  &kp MINUS  &kp EQUAL  &kp PLUS   &kp PIPE
         //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
         //│  ;       │  :       │  "       │  '       │          │   │  &       │  _       │  /       │  ?       │          │
-            &kp SEMI   &kp COLON  &kp DQT     &kp SQT     &trans         &kp AMPS   &kp UNDER  &kp FSLH   &kp QUEST  &trans
+            &kp SEMI   &kp COLON  &kp DOUBLE_QUOTES &kp SQT  &trans         &kp AMPS   &kp UNDER  &kp FSLH   &kp QMARK  &trans
         //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
                                              &trans     &trans         &trans     &trans
         //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
