@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cradio Keymap — Chandram</title>
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --card: #ffffff;
+    --key: #f0f1f4;
+    --key-border: #d8dbe0;
+    --text: #1a1d21;
+    --muted: #6b7280;
+    --accent: #6366f1;
+    --mod: #e0e7ff;
+    --mod-text: #4338ca;
+    --layer1: #0ea5e9;
+    --layer2: #f59e0b;
+    --layer3: #ef4444;
+    --hold-bg: #eef2ff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216;
+      --card: #181b21;
+      --key: #21252d;
+      --key-border: #32363f;
+      --text: #e7e9ee;
+      --muted: #8b93a1;
+      --accent: #818cf8;
+      --mod: #2b2f52;
+      --mod-text: #a5b4fc;
+      --hold-bg: #232746;
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    line-height: 1.5;
+    padding: 2rem 1rem 4rem;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+  header { margin-bottom: 2.5rem; text-align: center; }
+  h1 { font-size: 1.9rem; letter-spacing: -0.02em; }
+  header p { color: var(--muted); margin-top: 0.35rem; }
+  header .meta { font-size: 0.85rem; margin-top: 0.75rem; }
+  header .meta a { color: var(--accent); text-decoration: none; }
+
+  .layer-card {
+    background: var(--card);
+    border: 1px solid var(--key-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+  }
+  .layer-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .layer-head h2 { font-size: 1.15rem; }
+  .layer-head .how {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .layer-head .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    display: inline-block; flex-shrink: 0;
+    position: relative; top: -1px;
+  }
+
+  .board {
+    display: flex;
+    gap: 2.2rem;
+    justify-content: center;
+    min-width: 700px;
+  }
+  .half { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .key {
+    background: var(--key);
+    border: 1px solid var(--key-border);
+    border-radius: 8px;
+    min-height: 58px;
+    min-width: 58px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 2px;
+    text-align: center;
+  }
+  .key .tap { font-size: 0.95rem; font-weight: 600; }
+  .key .tap.small { font-size: 0.7rem; font-weight: 600; }
+  .key .hold {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--mod-text);
+    background: var(--mod);
+    border-radius: 4px;
+    padding: 0 4px;
+    margin-top: 3px;
+  }
+  .key.blank { opacity: 0.35; }
+  .key.hrm { background: var(--hold-bg); }
+  .key.thumb { border-color: var(--accent); }
+  .thumbs {
+    grid-column: span 5;
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .half.left .thumbs { justify-content: flex-end; }
+  .half.right .thumbs { justify-content: flex-start; }
+  .thumbs .key { flex: 0 0 calc(20% - 5px); }
+
+  .tips {
+    background: var(--card);
+    border: 1px solid var(--key-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+  }
+  .tips h2 { font-size: 1.15rem; margin-bottom: 0.9rem; }
+  .tips ul { list-style: none; }
+  .tips li {
+    padding: 0.45rem 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  .tips li strong { color: var(--text); font-weight: 600; }
+  kbd {
+    background: var(--key);
+    border: 1px solid var(--key-border);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    padding: 0.1em 0.45em;
+    font-size: 0.85em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    color: var(--text);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Cradio / Ferris Sweep Keymap</h1>
+    <p>34 keys · QWERTY · home-row mods · no combos</p>
+    <p class="meta"><a href="https://github.com/Chandram-Dutta/zmk-config">Chandram-Dutta/zmk-config</a> · <code>config/cradio.keymap</code></p>
+  </header>
+
+  <div id="layers"></div>
+
+  <section class="tips">
+    <h2>How the mods work</h2>
+    <ul>
+      <li><strong>Home-row mods:</strong> tap for the letter, hold for the modifier. <kbd>A</kbd>=Ctrl <kbd>S</kbd>=Alt <kbd>D</kbd>=Cmd <kbd>F</kbd>=Shift — mirrored on <kbd>J</kbd> <kbd>K</kbd> <kbd>L</kbd> <kbd>'</kbd>.</li>
+      <li><strong>Cross-hand is instant:</strong> <kbd>⌘C</kbd> = hold <kbd>K</kbd> + tap <kbd>C</kbd>. <kbd>⌘S</kbd> = hold <kbd>K</kbd> + tap <kbd>S</kbd>. <kbd>⌘⇧Z</kbd> = hold <kbd>J</kbd>+<kbd>K</kbd> + tap <kbd>Z</kbd>.</li>
+      <li><strong>Same-hand needs a beat:</strong> for <kbd>⌘Z</kbd> or <kbd>⌘V</kbd>, hold <kbd>D</kbd> ~¼s (past the tapping term), then tap the letter.</li>
+      <li><strong>No misfires while typing:</strong> mods won't trigger mid-word (150 ms prior-idle guard), and a left mod only activates on right-hand keys.</li>
+      <li><strong>Layers:</strong> hold <kbd>Enter</kbd> → Nav/Numbers, hold <kbd>Tab</kbd> → Symbols, hold both → System (F-keys, Bluetooth, flash).</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+// tap label, hold label (null = plain key), class
+const k = (tap, hold, cls) => ({ tap, hold: hold || null, cls: cls || "" });
+const B = k("", null, "blank");
+
+const LAYERS = [
+  {
+    name: "Base",
+    how: "default layer",
+    color: "var(--accent)",
+    left: [
+      k("Q"), k("W"), k("E"), k("R"), k("T"),
+      k("A", "CTRL", "hrm"), k("S", "ALT", "hrm"), k("D", "CMD", "hrm"), k("F", "SHFT", "hrm"), k("G"),
+      k("Z"), k("X"), k("C"), k("V"), k("B"),
+    ],
+    right: [
+      k("Y"), k("U"), k("I"), k("O"), k("P"),
+      k("H"), k("J", "SHFT", "hrm"), k("K", "CMD", "hrm"), k("L", "ALT", "hrm"), k("' \"", "CTRL", "hrm"),
+      k("N"), k("M"), k(", <"), k(". >"), k("/ ?"),
+    ],
+    thumbsL: [k("TAB", "SYM", "thumb"), k("ENT", "NAV", "thumb")],
+    thumbsR: [k("SPC", null, "thumb"), k("BSPC", null, "thumb")],
+  },
+  {
+    name: "Nav / Numbers",
+    how: "hold ENTER",
+    color: "var(--layer1)",
+    left: [
+      k("ESC"), k("1"), k("2"), k("3"), k("4"),
+      k("DEL"), k("5"), k("6"), k("7"), k("8"),
+      k("CAPS WORD", null, ""), B, B, B, k("9"),
+    ],
+    right: [
+      k("HOME"), k("PG ↓", null, ""), k("PG ↑", null, ""), k("END"), k(":"),
+      k("←"), k("↓"), k("↑"), k("→"), k(";"),
+      B, B, B, B, k("0"),
+    ],
+    thumbsL: [B, k("HELD", null, "thumb")],
+    thumbsR: [B, B],
+  },
+  {
+    name: "Symbols",
+    how: "hold TAB",
+    color: "var(--layer2)",
+    left: [
+      k("`"), k("["), k("{"), k("}"), k("\\"),
+      k("!"), k("@"), k("#"), k("$"), k("%"),
+      k(";"), k(":"), k("\""), k("'"), B,
+    ],
+    right: [
+      k("^"), k("("), k(")"), k("]"), k("~"),
+      k("*"), k("-"), k("="), k("+"), k("|"),
+      k("&"), k("_"), k("/"), k("?"), B,
+    ],
+    thumbsL: [k("HELD", null, "thumb"), B],
+    thumbsR: [B, B],
+  },
+  {
+    name: "System",
+    how: "hold TAB + ENTER",
+    color: "var(--layer3)",
+    left: [
+      k("RESET", null, ""), B, B, B, k("BT 0", null, ""),
+      k("BOOT", null, ""), B, B, B, k("BT 1", null, ""),
+      k("STUDIO", null, ""), B, B, k("BT CLR", null, ""), k("BT 2", null, ""),
+    ],
+    right: [
+      k("F1"), k("F2"), k("F3"), k("F4"), k("F5"),
+      k("F6"), k("F7"), k("F8"), k("F9"), k("F10"),
+      k("F11"), k("F12"), k("⌘⇧4", null, ""), B, B,
+    ],
+    thumbsL: [k("HELD", null, "thumb"), k("HELD", null, "thumb")],
+    thumbsR: [B, B],
+  },
+];
+
+function keyHtml(key) {
+  const tapCls = key.tap.length > 3 ? "tap small" : "tap";
+  return `<div class="key ${key.cls}">
+    <span class="${tapCls}">${key.tap}</span>
+    ${key.hold ? `<span class="hold">${key.hold}</span>` : ""}
+  </div>`;
+}
+
+document.getElementById("layers").innerHTML = LAYERS.map(layer => `
+  <section class="layer-card">
+    <div class="layer-head">
+      <span class="dot" style="background:${layer.color}"></span>
+      <h2>${layer.name}</h2>
+      <span class="how">${layer.how}</span>
+    </div>
+    <div class="board">
+      <div class="half left">
+        ${layer.left.map(keyHtml).join("")}
+        <div class="thumbs">${layer.thumbsL.map(keyHtml).join("")}</div>
+      </div>
+      <div class="half right">
+        ${layer.right.map(keyHtml).join("")}
+        <div class="thumbs">${layer.thumbsR.map(keyHtml).join("")}</div>
+      </div>
+    </div>
+  </section>
+`).join("");
+</script>
+</body>
+</html>
