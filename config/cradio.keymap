@@ -48,6 +48,18 @@
             bindings = <&kp RBRC>;
             key-positions = <16 17>;  // J+K
         };
+        combo_save {
+            bindings = <&kp LG(S)>;
+            key-positions = <11 12>;  // S+D
+        };
+        combo_find {
+            bindings = <&kp LG(F)>;
+            key-positions = <13 14>;  // F+G
+        };
+        combo_paste {
+            bindings = <&kp LG(V)>;
+            key-positions = <23 24>;  // V+B
+        };
     };
 
     conditional_layers {
@@ -88,7 +100,7 @@
             &kp DEL    &kp N5     &kp N6     &kp N7     &kp N8         &kp LEFT   &kp DOWN   &kp UP     &kp RIGHT   &kp SEMI
         //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
         //│ SHIFT    │ CTRL     │ ALT      │ GUI      │  9       │   │ GUI      │ ALT      │ CTRL     │ SHIFT    │  0       │
-            &kp LSHFT  &kp LCTRL  &kp LALT   &kp LGUI   &kp N9         &kp RGUI   &kp RALT   &kp RCTRL  &kp RSHFT  &kp N0
+            &kp LSHFT  &sk LCTRL  &sk LALT   &sk LGUI   &kp N9         &sk RGUI   &sk RALT   &sk RCTRL  &kp RSHFT  &kp N0
         //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
                                              &trans     &trans         &trans     &trans
         //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
