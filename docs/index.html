@@ -70,11 +70,12 @@
     position: relative; top: -4px;
   }
 
-  .scroller { overflow-x: auto; padding-bottom: 6px; }
+  .fit { overflow: hidden; }
   .board {
-    display: flex; justify-content: center; gap: 64px;
-    min-width: 660px; width: max-content; margin: 0 auto;
+    display: flex; gap: 64px;
+    width: max-content; margin: 0 auto;
     padding-top: 2px;
+    transform-origin: top left;
   }
   .cols { display: flex; gap: 5px; }
   .col { display: flex; flex-direction: column; gap: 5px; }
@@ -281,7 +282,7 @@ document.getElementById("layers").innerHTML = LAYERS.map(l => `
       <h2>${l.name}</h2>
       <span class="how">${l.how}</span>
     </div>
-    <div class="scroller">
+    <div class="fit">
       <div class="board">
         ${halfHtml(l.left, l.tl, "l")}
         ${halfHtml(l.right, l.tr, "r")}
@@ -289,6 +290,22 @@ document.getElementById("layers").innerHTML = LAYERS.map(l => `
     </div>
   </section>
 `).join("");
+
+// scale each board down to fit the container — no horizontal scroll
+function fitBoards() {
+  document.querySelectorAll(".board").forEach(board => {
+    board.style.transform = "none";
+    board.style.marginLeft = "";
+    const natural = board.offsetWidth;
+    const avail = board.parentElement.clientWidth;
+    const s = Math.min(1, avail / natural);
+    board.style.transform = `scale(${s})`;
+    board.style.marginLeft = Math.max(0, (avail - natural * s) / 2) + "px";
+    board.parentElement.style.height = board.offsetHeight * s + "px";
+  });
+}
+fitBoards();
+window.addEventListener("resize", fitBoards);
 </script>
 </body>
 </html>
